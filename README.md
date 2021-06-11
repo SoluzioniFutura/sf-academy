@@ -1,77 +1,58 @@
-# SF Academy  
+# Soluzione di exchange-microservice
 
-istruzioni, materiale di studio e prove per candidarsi ad SF Academy
+[![Website](https://img.shields.io/website?label=EXCHANGE%20APP&style=flat&url=http://exchangeapp.s3-website.eu-central-1.amazonaws.com/)](http://exchangeapp.s3-website.eu-central-1.amazonaws.com/)
 
-## Introduzione
+## Obiettivo
 
-SF Academy è un percorso di formazione e selezione per candidati stagisti o collaboratori di Soluzioni Futura
+Sviluppare una piattaforma che consenta agli utenti autenticati di simulare l'acquisto di dollari in cambio di euro e viceversa.
+La piattaforma dovrà prevedere una registrazione degli utenti, la visualizzazione del proprio saldo e dello storico delle transazioni, e la possibilità di eseguire versamenti acquisti e ritiri di denaro.
+L'intero applicativo potrà essere testato localmente grazie a docker, ma viene anche hostato online grazie ad AWS.
 
-### Percorsi
+## Descrizione
 
-ogni utente può candidarsi a sostenere una delle seguenti prove suddivise per area di competenza e livello di difficoltà:
+L'infrastruttura si divide in 3 componenti principali:
 
-- [exchange-microservice.md](./prove/exchange-microservice.md) <img src = "https://img.shields.io/static/v1?label=level&message=hard&color=red"> <img src = "https://img.shields.io/static/v1?label=&message=web-development&color=informational"> <img src = "https://img.shields.io/static/v1?label=&message=infrastructure&color=informational"> <img src = "https://img.shields.io/static/v1?label=&message=microservices&color=informational">
+- RDS
+  - mysql
+- EC2
+  - exchange microservice
+  - users microservice
+  - api microservice
+- S3
+  - react webapp
 
-- [magento-serverless.md](./prove/magento-serverless.md) <img src = "https://img.shields.io/static/v1?label=level&message=hard&color=red"> <img src = "https://img.shields.io/static/v1?label=&message=infrastructure&color=informational">
+Ognuna di queste tre parti è realizzata su un servizio differente offerto da AWS
+Localmente invece per ogni servizio viene creata un immagine docker diversa, le 6 immagini create comunicano grazie al file `docker-compose.yml`
 
-- [crypto-exchange.md](./prove/crypto-exchange.md) <img src = "https://img.shields.io/static/v1?label=level&message=hard&color=red"> <img src = "https://img.shields.io/static/v1?label=&message=web-development&color=informational"> <img src = "https://img.shields.io/static/v1?label=&message=infrastructure&color=informational"> <img src = "https://img.shields.io/static/v1?label=&message=blockchain&color=informational">
+## Installazione
 
-- [recensioni-film.md](./prove/recensioni-film.md) <img src = "https://img.shields.io/static/v1?label=level&message=medium&color=orange"> <img src = "https://img.shields.io/static/v1?label=&message=web-development&color=informational">
+- Per poter scaricare l'applicativo e testarlo localmente basta aver installato [docker](https://docs.docker.com/get-docker/) e aver docker in funzione sulla macchina
+- Clona la repository
+- Nella cartella troverai un file `.env.template`, rinomina il file in `.env` e compilane il contenuto con i dati richiesti
 
-- [wordpress.md](./prove/wordpress.md) <img src = "https://img.shields.io/static/v1?label=level&message=easy&color=green"> <img src = "https://img.shields.io/static/v1?label=&message=infrastructure&color=informational">
+```dotenv
+MYSQL_PASSWORD=<password>
+MYSQL_ROOT_PASSWORD=<root_password>
+JWT_SECRET=<segreto>
+DB_URI=mysql://admin:<password>d@db_service:3306/utentiMicroservice
+```
 
-### Per candidarsi a sostenere una prova è necessario:  
+- A questo punto basta aprire un cmd nella cartella e scrivere:
 
-- creare una issue su questa repository specificando per quale prova ci si stia candidando
-- creare un fork della repository `soluzionifutura/sf-academy` e aprire una pull request con la prova realizzata entro la deadline comunicata come risposta alla candidatura da [**giowe**](https://github.com/giowe) o [**nicofuccella**](https://github.com/nicofuccella)
-- al termine della prova richiedere la review di [**giowe**](https://github.com/giowe) e [**nicofuccella**](https://github.com/nicofuccella)
-- attendere responso
+```bash
+docker-compose up
+```
 
-### Comunicazioni  
+## Utilizzo
 
-ogni comunicazione tra il candidato e i responsabili delle prove avverrà tramite issue su questa repository.
+Localmente l'applicazione sarà attiva sulla porta [80](http://localhost), mentre se si vuole interagire direttamente con l'API il servizio si trova sulla porta [9002](http://localhost:9002) oppure direttamente dalla porta 80 sulla root `/api/` [qui](http://localhost/api).
+La descrizione dettagliata del funzionamento dell'API si trova in `./api/apiDoc.yml` nella cartella del progetto.
+<br>
+È possibile visitare l'applicazione funzionante e online cliccando sul badge in alto
 
-## Materiale di studio
+## Deploy su AWS
 
-### Web Development
-
-- [GIT](http://rogerdudler.github.io/git-guide/index.it.html)
-- [GIT guida tascabile](https://rogerdudler.github.io/git-guide/index.html)
-- [HTTP](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol)
-- [HTML](https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML)
-- [CSS](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS)
-- [JavaScript](https://developer.mozilla.org/en-US/docs/Learn/JavaScript)
-- [Corso “javascripting”](https://nodeschool.io)
-- [NodeJS](https://nodejs.org/en/)
-- [Corso “learnyounode”](https://nodeschool.io)
-- [Benefits of a database](https://opentextbc.ca/dbdesign01/chapter/chapter-3-characteristics-and-benefits-of-a-database/)
-- [MySQL](https://www.w3schools.com/sql/default.asp)
-- [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)
-- [RPC/REST](https://blog.jscrambler.com/rpc-style-vs-rest-web-apis)
-- [GRPC](https://grpc.io/docs/)
-
-### Infrastruttura
-
-- [Getting started with AWS EC2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/get-set-up-for-amazon-ec2.html)
-- [Ipv4 networking on AWS](https://docs.aws.amazon.com/vpc/latest/userguide/getting-started-ipv4.html)
-- [DNS on AWS Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html)
-- [LAMP stack on AWS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-lamp-amazon-linux-2.html)
-- [Hosting Wordpress on AWS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/hosting-wordpress.html)
-- [Docker: Getting Started](https://docs.docker.com/get-started/)
-- [Terraform](https://www.terraform.io/)
-- [AWS ECS](https://aws.amazon.com/ecs/)
-
-### IoT
-- [MQTT](https://en.wikipedia.org/wiki/MQTT)
-- [AWS IoT Core](https://aws.amazon.com/iot-core/)
-
-### Blockchain
-
-- [Bitcoin whitepaper](https://bitcoin.org/bitcoin.pdf)
-- [Ethereum whitepaper](http://blockchainlab.com/pdf/Ethereum_white_paper-a_next_generation_smart_contract_and_decentralized_application_platform-vitalik-buterin.pdf)
-- [Solidity](https://solidity.readthedocs.io/en/v0.4.24/index.html)
-- [Truffle suite](https://truffleframework.com/docs/truffle/overview) 
-- [Ethereum Geth JSON-RPC](https://github.com/ethereum/wiki/wiki/JSON-RPC)
-- [Infura](https://infura.io/)
-- [web3.js](https://web3js.readthedocs.io/en/1.0/index.html)
-- [web3.py](https://web3py.readthedocs.io/en/v3.16.5/) 
+Per fare un deploy dell'applicativo sul proprio account di AWS basterà rinominare il file `terraform.tfvars.template` in `terraform.tfvars` e cambiarne il contenuto in base alle proprie specifiche.
+È necessario ottenere le chiavi di accesso dal proprio account di AWS.
+Sarà anche necessario avere [AWS cli](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) installato sulla propria macchina e collegato sul proprio account.
+Se si fanno modifiche ai file dei servizi: `users`, `exchange` o `api` sarà necessario cambiare anche la fonte delle immagini docker `EC2Config` in quanto installano i serivizi prendendo le immagini dal mio account di docker hub.

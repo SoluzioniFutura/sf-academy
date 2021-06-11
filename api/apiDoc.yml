@@ -1,0 +1,335 @@
+swagger: '2.0'
+info:
+  title: exchange-microservices API
+  version: '1.0'
+paths:
+  /signup:
+    post:
+      operationId: signUp
+      summary: "signs up the user into the system"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "username"
+          in: "body"
+          required: true
+          description: "name of the user"
+          schema:
+            $ref: "#/definitions/User"
+        - name: "password"
+          in: "body"
+          required: true
+          description: "password of the user"
+          schema:
+            $ref: "#/definitions/User"
+        - name: "iban"
+          in: "body"
+          required: true
+          description: "iban of the user"
+          schema:
+            $ref: "#/definitions/User"
+        - name: "email"
+          in: "body"
+          required: true
+          description: "email of the user"
+          schema:
+            $ref: "#/definitions/User"
+      responses:
+        '201':
+          description: OK
+          schema:
+            type: "string"
+            items:
+              $ref: "#/definitions/Token"
+        '400':
+          description: "invalid argument/s"
+        '409':
+          description: "email already in use"
+  /login:
+      post:
+        operationId: login
+        summary: "logs the user into the system"
+        consumes:
+          - "application/json"
+        produces:
+          - "application/json"
+        parameters:
+          - name: "email"
+            in: "body"
+            required: true
+            description: "email of the user"
+            schema:
+              $ref: "#/definitions/User"
+          - name: "password"
+            in: "body"
+            required: true
+            description: "password of the user"
+            schema:
+              $ref: "#/definitions/User"
+        responses:
+          '200':
+            description: OK
+            schema:
+              type: "string"
+              items:
+                $ref: "#/definitions/Token"
+          '404':
+            description: "No users found with this email"
+          '400':
+            description: "Invalid email/password"
+  /deposit:
+    post:
+      operationId: deposit
+      summary: "deposit money"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "token"
+          in: "body"
+          required: true
+          description: "auth token"
+          schema:
+            $ref: "#/definitions/Movement"
+        - name: "value"
+          in: "body"
+          required: true
+          description: "auth token"
+          schema:
+            $ref: "#/definitions/Movement"
+        - name: "symbol"
+          in: "body"
+          required: true
+          description: "auth token"
+          schema:
+            $ref: "#/definitions/Movement"
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: "object"
+            items:
+              $ref: "#/definitions/Balance"
+        '403':
+          description: "auth token not valid"
+        '400':
+          description: "Invalid parameters"
+  /withdraw:
+    post:
+      operationId: withdraw
+      summary: "withdraw money"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "token"
+          in: "body"
+          required: true
+          description: "auth token"
+          schema:
+            $ref: "#/definitions/Movement"
+        - name: "value"
+          in: "body"
+          required: true
+          description: "auth token"
+          schema:
+            $ref: "#/definitions/Movement"
+        - name: "symbol"
+          in: "body"
+          required: true
+          description: "auth token"
+          schema:
+            $ref: "#/definitions/Movement"
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: "object"
+            items:
+              $ref: "#/definitions/Balance"
+        '403':
+          description: "auth token not valid"
+        '400':
+          description: "Invalid parameters or not enough money to withdraw"
+  /balance:
+    get:
+      operationId: balance
+      summary: "get the current balance"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "token"
+          in: "query"
+          required: true
+          description: "auth token"
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: "object"
+            items:
+              $ref: "#/definitions/Balance"
+        '403':
+          description: "auth token not valid"
+  /buy:
+    post:
+      operationId: buy
+      summary: "buy a currency with another one "
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "token"
+          in: "body"
+          required: true
+          description: "auth token"
+          schema:
+            $ref: "#/definitions/Movement"
+        - name: "value"
+          in: "body"
+          required: true
+          description: "auth token"
+          schema:
+            $ref: "#/definitions/Movement"
+        - name: "symbol"
+          in: "body"
+          required: true
+          description: "auth token"
+          schema:
+            $ref: "#/definitions/Movement"
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: "object"
+            items:
+              $ref: "#/definitions/Balance"
+        '403':
+          description: "auth token not valid"
+        '400':
+          description: "Invalid parameters or not enough money to pay"
+  /transactions:
+    get:
+      operationId: transactions
+      summary: "get the history of transactions"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "token"
+          in: "query"
+          required: true
+          description: "auth token"
+          type: string
+        - name: "date"
+          in: query
+          required: false
+          type: string
+        - name: "symbol"
+          in: query
+          required: false
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Transactions"
+        '400':
+          description: "missing or wrong argument"
+        '403':
+          description: "auth token not valid"
+  /exchangeValue:
+    get:
+      operationId: exchangeValue
+      summary: "get the exchanged Value"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "value"
+          in: "query"
+          required: true
+          description: "value"
+          type: number
+        - name: "symbol"
+          in: "query"
+          required: true
+          description: "value"
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: "object"
+            items:
+              $ref: "#/definitions/Balance"
+        '403':
+          description: "auth token not valid"
+definitions:
+  User:
+    type: 'object'
+    properties: 
+      id:
+        type: integer
+      name:
+        type: string
+      iban:
+        type: string
+      password:
+        type: string
+      balanceEUR:
+        type: number
+      balanceUSD:
+        type: number
+  Token:
+    type: 'string'
+  Movement:
+    type: 'object'
+    properties: 
+      token:
+        type: string
+      value:
+        type: number
+      symbol:
+        type: string
+  Balance:
+    type: 'object'
+    properties: 
+      balanceEUR:
+        type: number
+      balanceUSD:
+        type: number
+  Date:
+    type: object
+    properties: 
+      from:
+        type: string
+      to:
+        type: string
+  Transactions:
+    type: object
+    properties: 
+      time:
+        type: string
+      transType:
+        type: string
+      value:
+        type: number
+      symbol:
+        type: string
+      eValue:
+        type: number
+      eSymbol:
+        type: string

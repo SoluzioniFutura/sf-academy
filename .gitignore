@@ -1,0 +1,6 @@
+.env
+terraform.*
+.terraform*
+
+
+!terraform.tfvars.template
