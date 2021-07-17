@@ -1,0 +1,7 @@
+.env
+.vscode
+*.txt
+.terraform*
+*.tfstate*
+terraform.tfvars
+id_rsa*

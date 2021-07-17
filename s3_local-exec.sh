@@ -1,0 +1,1 @@
+cd frontend && export REACT_APP_NGINX_URI=${backend_uri} && echo $REACT_APP_NGINX_URI && npm i && npm run build && aws s3 sync build s3://${bucket_name}

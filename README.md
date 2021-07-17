@@ -1,77 +1,110 @@
-# SF Academy  
+# SF-Academy | exchange-microservice
 
-istruzioni, materiale di studio e prove per candidarsi ad SF Academy
+Puoi accedere al sito hostato su S3 da [qui](http://exchange-microservice-frontend-s3-bucket.s3-website.eu-west-3.amazonaws.com/)
 
-## Introduzione
+## Traccia
 
-SF Academy è un percorso di formazione e selezione per candidati stagisti o collaboratori di Soluzioni Futura
+Le istruzioni della prova sono disponibili qui: [exchange-microservice.md](https://github.com/soluzionifutura/sf-academy/blob/master/prove/exchange-microservice.md)
 
-### Percorsi
+## Componenti
 
-ogni utente può candidarsi a sostenere una delle seguenti prove suddivise per area di competenza e livello di difficoltà:
+I componenti richiesti dalla prova sono quelle sottostanti.
 
-- [exchange-microservice.md](./prove/exchange-microservice.md) <img src = "https://img.shields.io/static/v1?label=level&message=hard&color=red"> <img src = "https://img.shields.io/static/v1?label=&message=web-development&color=informational"> <img src = "https://img.shields.io/static/v1?label=&message=infrastructure&color=informational"> <img src = "https://img.shields.io/static/v1?label=&message=microservices&color=informational">
+- [x] Backend
+  - [x] Exchange Microservice
+  - [x] Users Microservice
+  - [x] API Microservice
+- [x] Frontend
+  - [x] React WebApp
 
-- [magento-serverless.md](./prove/magento-serverless.md) <img src = "https://img.shields.io/static/v1?label=level&message=hard&color=red"> <img src = "https://img.shields.io/static/v1?label=&message=infrastructure&color=informational">
+## Installazione
 
-- [crypto-exchange.md](./prove/crypto-exchange.md) <img src = "https://img.shields.io/static/v1?label=level&message=hard&color=red"> <img src = "https://img.shields.io/static/v1?label=&message=web-development&color=informational"> <img src = "https://img.shields.io/static/v1?label=&message=infrastructure&color=informational"> <img src = "https://img.shields.io/static/v1?label=&message=blockchain&color=informational">
+### Prerequisiti
 
-- [recensioni-film.md](./prove/recensioni-film.md) <img src = "https://img.shields.io/static/v1?label=level&message=medium&color=orange"> <img src = "https://img.shields.io/static/v1?label=&message=web-development&color=informational">
+- [Docker](https://www.docker.com/get-started), necessario per la riproduzione in locale degli applicativi.
 
-- [wordpress.md](./prove/wordpress.md) <img src = "https://img.shields.io/static/v1?label=level&message=easy&color=green"> <img src = "https://img.shields.io/static/v1?label=&message=infrastructure&color=informational">
+### Come utilizzarlo in locale
 
-### Per candidarsi a sostenere una prova è necessario:  
+1. Clonare la repository.
+2. Rinomincare il file `.env.template` in `.env` e compilare i campi al suo interno.
+3. Aprire un terminale.
+4. Entrare nella cartella `cd /percorso/della/cartella`.
+5. Eseguire il comando `docker-compose up --build`.
 
-- creare una issue su questa repository specificando per quale prova ci si stia candidando
-- creare un fork della repository `soluzionifutura/sf-academy` e aprire una pull request con la prova realizzata entro la deadline comunicata come risposta alla candidatura da [**giowe**](https://github.com/giowe) o [**nicofuccella**](https://github.com/nicofuccella)
-- al termine della prova richiedere la review di [**giowe**](https://github.com/giowe) e [**nicofuccella**](https://github.com/nicofuccella)
-- attendere responso
+### Informazioni aggiuntive
 
-### Comunicazioni  
+Si può accedere alla Web App localmente all'indirizzo [http://localhost](http://localhost).
 
-ogni comunicazione tra il candidato e i responsabili delle prove avverrà tramite issue su questa repository.
+L'accesso all'API può essere effettuata sulla route `api` o direttamente alla porta `9002`
 
-## Materiale di studio
+Le funzioni gRPC sono esposte sulla porta `9000` per `exchange` e `9001` per `users`.
 
-### Web Development
+## AWS
 
-- [GIT](http://rogerdudler.github.io/git-guide/index.it.html)
-- [GIT guida tascabile](https://rogerdudler.github.io/git-guide/index.html)
-- [HTTP](https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol)
-- [HTML](https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML)
-- [CSS](https://developer.mozilla.org/en-US/docs/Learn/CSS/Introduction_to_CSS)
-- [JavaScript](https://developer.mozilla.org/en-US/docs/Learn/JavaScript)
-- [Corso “javascripting”](https://nodeschool.io)
-- [NodeJS](https://nodejs.org/en/)
-- [Corso “learnyounode”](https://nodeschool.io)
-- [Benefits of a database](https://opentextbc.ca/dbdesign01/chapter/chapter-3-characteristics-and-benefits-of-a-database/)
-- [MySQL](https://www.w3schools.com/sql/default.asp)
-- [REST](https://en.wikipedia.org/wiki/Representational_state_transfer)
-- [RPC/REST](https://blog.jscrambler.com/rpc-style-vs-rest-web-apis)
-- [GRPC](https://grpc.io/docs/)
+Con l'utilizzo di Terraform è possibile riprodurre in maniera perfetta il sistema.
 
 ### Infrastruttura
 
-- [Getting started with AWS EC2](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/get-set-up-for-amazon-ec2.html)
-- [Ipv4 networking on AWS](https://docs.aws.amazon.com/vpc/latest/userguide/getting-started-ipv4.html)
-- [DNS on AWS Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html)
-- [LAMP stack on AWS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-lamp-amazon-linux-2.html)
-- [Hosting Wordpress on AWS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/hosting-wordpress.html)
-- [Docker: Getting Started](https://docs.docker.com/get-started/)
-- [Terraform](https://www.terraform.io/)
-- [AWS ECS](https://aws.amazon.com/ecs/)
+- [x] RDS
+  - [x] Database MySQL
+- [x] EC2
+  - [x] gRPC Exchange  
+  - [x] gRPC Users  
+  - [x] API
+- [x] S3
+  - [x] Frontend React
 
-### IoT
-- [MQTT](https://en.wikipedia.org/wiki/MQTT)
-- [AWS IoT Core](https://aws.amazon.com/iot-core/)
+### Requisiti
 
-### Blockchain
+- [AWS CLI](https://aws.amazon.com/it/cli/), necessario per gestire i servizi AWS.
+- [Terraform CLI](https://www.terraform.io/downloads.html), necessario per utilizzare il template Terraform.
+- [Node.js / NPM](https://nodejs.org/it/download/), necessario per la build del frontend.
 
-- [Bitcoin whitepaper](https://bitcoin.org/bitcoin.pdf)
-- [Ethereum whitepaper](http://blockchainlab.com/pdf/Ethereum_white_paper-a_next_generation_smart_contract_and_decentralized_application_platform-vitalik-buterin.pdf)
-- [Solidity](https://solidity.readthedocs.io/en/v0.4.24/index.html)
-- [Truffle suite](https://truffleframework.com/docs/truffle/overview) 
-- [Ethereum Geth JSON-RPC](https://github.com/ethereum/wiki/wiki/JSON-RPC)
-- [Infura](https://infura.io/)
-- [web3.js](https://web3js.readthedocs.io/en/1.0/index.html)
-- [web3.py](https://web3py.readthedocs.io/en/v3.16.5/) 
+### Come eseguire il deploy
+
+1. Clonare la repository.
+2. Rinomincare il file `terraform_template.tfvars` in `terraform.tfvars` e compilare i campi al suo interno.
+3. Aprire un terminale.
+4. Entrare nella cartella `cd /percorso/della/cartella`.
+   1. Se in un sistema Windows, modificare il file `s3_local-exec.sh` cambiare la keyword `export` con `set`.
+5. Configurare AWS con `aws configure`.
+6. Eseguire il comando `terraform init`.
+7. Eseguire il comando `terraform apply -auto-approve`.
+8. Attendere l'inizializzazione delle macchine AWS.
+   1. Puoi controllare i container facendo `docker ps` all'interno della console direttamente dal browser.
+   2. Se sono presenti 6 container all'interno della macchina EC2, vuol dire che è pronto.
+
+## Media utilizzati
+
+Qui è presente una lista di media (principalmente delle tecnologie a me nuove) che ho utilizzato per la realizzazio della prova.
+
+- gRPC:
+  - [gRPC Crash Course](https://youtu.be/Yw4rkaTc0f8) - Hussein Nasser.
+  - [Proto3 | Protobuf](https://developers.google.com/protocol-buffers/docs/proto3)
+- OpenAPI
+  - [Swagger](https://swagger.io/docs/specification/2-0/basic-structure/)
+- Authentication/Authorization:
+  - [JWT](https://www.npmjs.com/package/jsonwebtoken)
+  - [React Auth Hook](https://usehooks.com/useAuth/)
+  - [BCryptJS](https://github.com/kelektiv/node.bcrypt.js#readme)
+- Docker
+  - [Setting Up a MySQL Database in Docker](https://betterprogramming.pub/setting-up-mysql-database-in-a-docker-d6c69a3e9afe) - Ashutosh Karna.
+- nginx
+  - [Beginner’s Guide](https://nginx.org/en/docs/beginners_guide.html)
+  - [Docker configuration](https://hub.docker.com/_/nginx)
+  - [React in Docker with Nginx](https://tiangolo.medium.com/react-in-docker-with-nginx-built-with-multi-stage-docker-builds-including-testing-8cc49d6ec305) - Sebastián Ramírez.
+- Terraform
+  - [Terraform Docs](https://www.terraform.io/docs/index.html)
+  - [Terraform AWS Docs](https://registry.terraform.io/providers/hashicorp/aws/latest/docs)
+  - [Terraform AWS](https://learn.hashicorp.com/collections/terraform/aws-get-started)
+  - [Terraform Course](https://youtu.be/SLB_c_ayRMo) - [freeCodeCamp.org](https://www.freecodecamp.org/).
+  - [Create database schema with terraform](https://stackoverflow.com/questions/59922023/create-database-schema-with-terraform)
+  - [Manage AWS RDS Instances](https://learn.hashicorp.com/tutorials/terraform/aws-rds?in=terraform/aws)
+  - [Automation of AWS Cloud using Terraform (GitHub included)](https://www.linkedin.com/pulse/automation-aws-cloud-using-terraform-github-included-raghuwanshi/) - Sanya Raghuwanshi.
+  - [Deploy an EC2 to run Docker with Terraform](https://klotzandrew.com/blog/deploy-an-ec2-to-run-docker-with-terraform) - Andrew Klotz.
+  - [How To Install Docker Compose On Amazon Linux AMI](https://acloudxpert.com/how-to-install-docker-compose-on-amazon-linux-ami/)
+  - [Is there a way to get the Public DNS address of an instance?](https://unix.stackexchange.com/questions/24355/is-there-a-way-to-get-the-public-dns-address-of-an-instance)
+  - [Deploying a React App with S3 and Terraform](https://www.davidbegin.com/deploying-a-react-app-to-s3-with-terrraform-and-bash/) - David Begin.
+  - [Resource: aws_s3_bucket](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket)
+  - [Setting permissions for website access](https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteAccessPermissionsReqd.html)
+  - [templatefile Function](https://www.terraform.io/docs/language/functions/templatefile.html)

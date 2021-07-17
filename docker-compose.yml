@@ -1,0 +1,103 @@
+version: '3.8'
+services:
+    # database
+    database:
+        container_name: database
+        image: mysql:8.0.25
+        cap_add:
+            - SYS_NICE
+        expose:
+            - 3306
+        ports:
+            - '3306:3306'
+        environment:
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+            - MYSQL_PORT=3306
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        volumes:
+            # ADD ddl_schema.sql /docker-entrypoint-initdb.d
+            - './ddl_schema.sql:/docker-entrypoint-initdb.d/ddl_schema.sql'
+    # backend
+    exchange:
+        container_name: exchange
+        build: './backend/exchange'
+        ports:
+            - '9000:9000'
+        restart: always
+        volumes:
+            - './backend/proto:/app/proto'
+    users:
+        container_name: users
+        build: './backend/users'
+        ports:
+            - '9001:9001'
+        environment:
+            - JWT_SECRET=${JWT_SECRET}
+            - DATABASE_URI=${DATABASE_URI}
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - EXCHANGE_URI=${EXCHANGE_URI}
+        restart: always
+        volumes:
+            - './backend/proto:/app/proto'
+        depends_on:
+            - database
+    api:
+        container_name: api
+        build: './backend/api'
+        environment:
+            - USERS_URI=${USERS_URI}
+            - EXCHANGE_URI=${EXCHANGE_URI}
+        ports:
+            - '9002:9002'
+        expose:
+            - 9002
+        restart: always
+        volumes:
+            - './backend/proto:/app/proto'
+        depends_on:
+            - database
+            - exchange
+            - users
+    # nginx
+    web:
+        image: nginx:1.20.1-alpine
+        container_name: nginx
+        volumes:
+            - './nginx.conf:/etc/nginx/templates/default.conf.template'
+        ports:
+            - '80:80'
+        expose: 
+            - 80
+        environment:
+            - NGINX_PORT=80
+            # - NGINX_HOST=foobar.com
+            - API_URI=${API_URI}
+            - FRONTEND_URI=${FRONTEND_URI}
+        depends_on:
+            - database
+            - exchange
+            - users
+            - api
+            - frontend
+    # frontend
+    frontend:
+        container_name: frontend
+        build: 
+            context: ./frontend
+            args:
+                - REACT_APP_NGINX_URI=${REACT_APP_NGINX_URI}
+        environment:
+            - REACT_APP_NGINX_URI=${REACT_APP_NGINX_URI}
+        ports:
+            - '5000:80'
+        expose: 
+            - 5000
+        depends_on:
+            - database
+            - exchange
+            - users
+            - api
