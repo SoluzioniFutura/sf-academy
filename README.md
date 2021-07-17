@@ -3,7 +3,7 @@
 
 ## Creare il database
 
-Per il salvataggio dati utenti è necessario creare un database MySQL. Gli strumenti utilizzati per questo scopo sono reperibili dal sito [MySQL](https://dev.mysql.com/downloads/).
+Per il salvataggio dati utenti è necessario creare un database MySQL. Gli strumenti utilizzati a questo scopo sono reperibili dal sito [MySQL](https://dev.mysql.com/downloads/).
 Una volta installato e configurato MySQL Server è possibile usare la console (MySQL Command Line Client) o installare anche l'applicazione Workbench per eseguire le seguenti query:  
 
 CREATE DATABASE exchangedb;  
@@ -19,7 +19,7 @@ CREATE TABLE users(
 
 CREATE TABLE accounts(  
 &emsp; user_id int NOT NULL,  
-&emsp; currency varchar(3) NOT NULL,  
+&emsp; currency char(3) NOT NULL,  
 &emsp; balance decimal(20,4) NOT NULL DEFAULT 0,  
 &emsp; PRIMARY KEY(user_id, currency),  
 &emsp; FOREIGN KEY(user_id) REFERENCES users(id)  
@@ -28,8 +28,8 @@ CREATE TABLE accounts(
 CREATE TABLE transactions(  
 &emsp; id int NOT NULL AUTO_INCREMENT PRIMARY KEY,  
 &emsp; amount decimal(20,4) NOT NULL,  
-&emsp; currency_from varchar(3) NOT NULL,  
-&emsp; currency_to varchar(3) NOT NULL,  
+&emsp; currency_from char(3) NOT NULL,  
+&emsp; currency_to char(3) NOT NULL,  
 &emsp; user_id int NOT NULL,  
 &emsp; trans_date datetime NOT NULL DEFAULT NOW(),  
 &emsp; FOREIGN KEY(user_id) REFERENCES users(id),  
